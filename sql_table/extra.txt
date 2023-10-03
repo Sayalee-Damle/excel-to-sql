@@ -1,0 +1,11 @@
+system_message_prompt = SystemMessagePromptTemplate.from_template(t.sys_template_data_loader)
+human_message_prompt = HumanMessagePromptTemplate.from_template(t.human_template_data_loader)
+chat_prompt = ChatPromptTemplate.from_messages([system_message_prompt, human_message_prompt])
+chain = LLMChain(llm = cfg.llm, prompt = chat_prompt)
+print(chain.run({'doc': doc}))
+
+INSERT INTO {table_name} {headers}
+SELECT {headers}
+FROM OPENROWSET('Microsoft.ACE.OLEDB.12.0',
+'Excel 12.0;Database=db',
+'SELECT * FROM {docs}')
