@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from pydantic import Field
 from typing import Optional
 
+
 class SQLResponse(BaseModel):
     """Contains a SQL Query """
     insert_sql : Optional[str] = Field(

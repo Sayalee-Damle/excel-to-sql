@@ -9,3 +9,36 @@ SELECT {headers}
 FROM OPENROWSET('Microsoft.ACE.OLEDB.12.0',
 'Excel 12.0;Database=db',
 'SELECT * FROM {docs}')
+
+
+take tiktoken and go up to 13k tokens and then run, after that run a different query
+
+
+def num_tokens_from_data(lst: list) -> int:
+    """Returns the number of tokens in a data"""
+    encoding = tiktoken.get_encoding("cl100k_base")
+    num_tokens = 0
+    for val in lst:
+        num_tokens = len(encoding.encode(val))
+    return num_tokens
+
+def num_tokens_used(docs: List[Document]) -> (list, int):
+    document = []
+    num_token = 0
+    len_doc = 0
+    for doc in docs:
+        num_token += num_tokens_from_data(doc.page_content.split("\n\n\n"))
+        if num_token < cfg.token_limit:
+            len_doc += doc.
+            document.append(doc.page_content.split("\n\n\n"))
+        else:
+            break
+    return document, len_doc
+
+def document_to_pass(docs: List[Document], len_doc: int) -> List[Document]:
+    try:
+        doc = docs[len_doc+1:]
+        return doc
+    except:
+        doc = []
+        return 
