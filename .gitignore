@@ -3,3 +3,4 @@
 #ignore all files in this directory
 embeddings/*
 files/*
+./main.py

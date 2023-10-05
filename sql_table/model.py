@@ -15,3 +15,9 @@ class SQLResponse(BaseModel):
         description = "sql create query used to create table from the column names extracted from the .xlsx file "
     )
 
+class PythonResponse(BaseModel):
+    """Contains Python Code"""
+    load_excel : Optional[str] = Field(
+        ...,
+        description = "Python Code to load excel sheet into given database"
+    )

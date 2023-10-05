@@ -1,7 +1,7 @@
 import tiktoken
 from langchain.schema import Document
 from typing import List
-import create_table as ct
+import sql_table.create_table_extra as ct
 from pathlib import Path
 from config import cfg
 
