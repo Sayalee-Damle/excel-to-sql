@@ -4,23 +4,15 @@ from langchain.prompts.chat import (
     HumanMessagePromptTemplate,
 )
 from langchain.chains import LLMChain
-from langchain.document_loaders import UnstructuredExcelLoader
 from pathlib import Path
 import psycopg2
-import tiktoken
-from model import SQLResponse, PythonResponse
 from langchain.schema.messages import HumanMessage
-import templates as t
-from config import cfg
-from langchain.agents.agent_toolkits import SQLDatabaseToolkit
-from langchain.agents import create_sql_agent
-from langchain.agents import AgentExecutor
-from langchain.agents.agent_types import AgentType
-from langchain.schema import Document
-from typing import List
 from langchain.chains.openai_functions import create_structured_output_chain
 
-from log_factory import logger
+from excel_to_sql.config import cfg 
+from excel_to_sql.log_factory import logger
+from excel_to_sql.model import PythonResponse
+import excel_to_sql.templates as t
 
 def prompt_factory(system_template, human_template, add_snake_case = False):
     system_message_prompt = SystemMessagePromptTemplate.from_template(template= system_template)
@@ -39,14 +31,14 @@ def chain_factory_python_load() -> LLMChain:
         verbose=cfg.verbose_llm,
     )
 
-def load_file(path: Path, db, table_name, pwd):
+async def load_file(path: Path, db, table_name, pwd):
     chain = chain_factory_python_load()
-    loader = chain.run({'excel': path, 'db': db, 'table_name': table_name, 'pwd': pwd})
+    loader = await chain.arun({'excel': path, 'db': db, 'table_name': table_name, 'pwd': pwd})
     return loader.load_excel
 
-def python_executor(code):
+async def python_executor(code):
     python_executor_dir = cfg.python_executor
-    # used to create embeddings
+    
     if not python_executor_dir.exists():
         python_executor_dir.mkdir(exist_ok=True, parents=True)
 
@@ -56,18 +48,24 @@ def python_executor(code):
     try:
         exec(open(executor_path).read())
         succesful_msg = "successful execution"
+        logger.info(succesful_msg)
         return succesful_msg
     except:
         error_msg = "execution failed"
+        logger.exception(error_msg)
         return error_msg
 
+async def database_connection(db):
+    conn = psycopg2.connect(dsn=db)
+    return conn
 
 
 
 if __name__ == "__main__":
-    db = cfg.conn
+    import asyncio
+    db = asyncio.run(database_connection("postgresql://postgres:12345@localhost:5432/test"))
     table_name = "employee"
     path = Path(f"c:/Users/Sayalee/Documents/Employee Sample Data.xlsx")
-    load_excel = load_file(path, db, table_name, cfg.password)
+    load_excel = asyncio.run(load_file(path, db, table_name, cfg.password))
     logger.info(load_excel)
     logger.info(python_executor(load_excel))
