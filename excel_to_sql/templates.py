@@ -1,3 +1,5 @@
+snake_case_instruction = """Make sure that all field names are in SNAKE Case.
+SNAKE Case means all field names are in LOWER CASE and spaces are converted to underscores(_) """
 
 system_template_python_coder_load = """You generate PYTHON CODE"""
 human_template_python_coder_load = """ Please generate Python Code to Load {excel} sheet into the {db} by creating a table with this name : {table_name}

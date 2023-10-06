@@ -29,6 +29,7 @@ class Config:
     host = os.getenv("HOST")  
     port = os.getenv("PORT")  
     conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
+    
     path_excel = Path(os.getenv("EXCEL_PATH_DISC"))
     
     if not path_excel.exists():
