@@ -63,7 +63,7 @@ async def database_connection(db):
 
 if __name__ == "__main__":
     import asyncio
-    db = asyncio.run(database_connection("postgresql://postgres:12345@localhost:5432/test"))
+    db = asyncio.run(database_connection(cfg.conn))
     table_name = "employee"
     path = Path(f"c:/Users/Sayalee/Documents/Employee Sample Data.xlsx")
     load_excel = asyncio.run(load_file(path, db, table_name, cfg.password))

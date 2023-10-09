@@ -43,7 +43,7 @@ async def get_excel():
     files = None
     while files == None:
         files = await cl.AskFileMessage(
-            content="Please upload a excel file to begin!",
+            content="Please upload an excel file to begin!",
             accept=["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
             max_files=1,
         ).send()
