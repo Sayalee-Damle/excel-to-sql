@@ -1,3 +1,8 @@
+## Description
+```
+This tool will use the ChatGPT API to convert the excel spreadsheet into a database table.
+```
+
 ## installation instructions
 ```
 pip install poetry
