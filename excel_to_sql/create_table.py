@@ -68,4 +68,4 @@ if __name__ == "__main__":
     path = Path(f"c:/Users/Sayalee/Documents/Employee Sample Data.xlsx")
     load_excel = asyncio.run(load_file(path, db, table_name, cfg.password))
     logger.info(load_excel)
-    logger.info(python_executor(load_excel))
+    #logger.info(python_executor(load_excel))

@@ -20,10 +20,9 @@ async def delete_excel():
 async def start() -> cl.Message:
     path_excel = await get_excel()
     if path_excel:
-        await cl.Message(content=f"You will be asked questions related to the database where you want to create this table in.").send()
         conn = cfg.conn
         password = cfg.password
-        table_name = await ask_user_msg("what do you want the table name to be?")
+        table_name = await ask_user_msg("What do you want the table name to be?")
         excel_load = await ct.load_file(path_excel, conn, table_name['content'], password)
         code_run = await ct.python_executor(excel_load)
         if code_run == 'successful execution':
