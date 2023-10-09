@@ -1,7 +1,7 @@
 snake_case_instruction = """Make sure that all field names are in SNAKE Case.
 SNAKE Case means all field names are in LOWER CASE and spaces are converted to underscores(_) """
 
-system_template_python_coder_load = """You generate PYTHON CODE"""
+system_template_python_coder_load = """You are an expert Python programmer who produces detailed and well documented code."""
 human_template_python_coder_load = """ Please generate Python Code to Load {excel} sheet into the {db} by creating a table with this name : {table_name}
 Use the database connection as mentioned. 
 Make sure that the connection is always made, use password provided {pwd}.
